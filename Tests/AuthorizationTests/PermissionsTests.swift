@@ -93,7 +93,7 @@ final class PermissionsTests: XCTestCase {
     
 }
 
-fileprivate struct SomeUser: Authorizable {
+fileprivate struct SomeUser: Authorizable, Authenticatable {
     
     let id: Int
     

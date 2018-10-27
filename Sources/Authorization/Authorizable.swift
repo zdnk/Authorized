@@ -1,7 +1,6 @@
 import Foundation
-import Authentication
 
-public protocol Authorizable: Authenticatable {
+public protocol Authorizable {
     
     static var authorizableIdentifier: String { get }
     

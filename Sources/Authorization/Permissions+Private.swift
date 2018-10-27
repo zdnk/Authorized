@@ -23,7 +23,7 @@ extension Permissions {
             action: action,
             resource: resource,
             instance: false
-            )?.resolver
+        )?.resolver
     }
     
     internal func createPermission(user: String, resource: String, action: String, instance: Bool, resolver: PermissionResolving) {
