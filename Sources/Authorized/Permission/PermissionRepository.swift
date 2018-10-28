@@ -11,7 +11,9 @@ public struct PermissionRepository {
         let id = request.isInstance ? request.instanceIdentifier : request.identifier
         
         let permission = Permission(
-            action: request.actionIdentifier,
+            authorizable: request.authorizable,
+            resource: request.resource,
+            action: request.action,
             instance: request.isInstance,
             deny: isDeny,
             resolver: resolver
@@ -45,9 +47,9 @@ extension PermissionRequest {
     
     fileprivate var identifier: String {
         return [
-            self.authorizableIdentifier,
-            self.resourceIdentifier,
-            self.actionIdentifier
+            self.authorizable,
+            self.resource,
+            self.action
         ].joined(separator: ".")
     }
     
