@@ -1,6 +1,6 @@
 import Foundation
 
-struct StaticPermissionResolver: PermissionResolving {
+struct SimplePermissionResolver: PermissionResolving {
     
     let value: Bool
     

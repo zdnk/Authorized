@@ -24,7 +24,7 @@ extension Permissions {
         
         allow(
             with: request,
-            resolver: StaticPermissionResolver(value: true)
+            resolver: SimplePermissionResolver(value: true)
         )
     }
     
