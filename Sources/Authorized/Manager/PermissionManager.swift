@@ -18,8 +18,7 @@ open class PermissionManager: Permissions {
         
         return self.resolve(
             permissions,
-            R.self,
-            resource: resource,
+            target: .instance(resource),
             user: user
         )
     }
@@ -34,8 +33,7 @@ open class PermissionManager: Permissions {
         
         return self.resolve(
             permissions,
-            R.self,
-            resource: nil,
+            target: ResourceTarget<R>.type,
             user: user
         )
     }

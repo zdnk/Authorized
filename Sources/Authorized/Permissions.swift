@@ -38,7 +38,7 @@ extension Permissions {
         
         allow(
             with: request,
-            resolver: ClosurePermissionResolver(resolve)
+            resolver: InstanceClosurePermissionResolver(resolve)
         )
     }
     
