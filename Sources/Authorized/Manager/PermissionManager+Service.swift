@@ -7,7 +7,7 @@ extension PermissionManager: ServiceType {
     }
     
     public static func makeService(for worker: Container) throws -> Self {
-        return .init()
+        return try .init(repository: worker.make(PermissionRepository.self))
     }
     
 }

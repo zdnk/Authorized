@@ -11,8 +11,9 @@ final class PermissionsTests: XCTestCase {
         ("testAuthorize", testAuthorize),
     ]
     
-    func testAllowed() {
-        let permissions = PermissionManager()
+    func testAllowed() throws {
+        let container = try self.container()
+        let permissions = try container.make(Permissions.self)
         let user = SomeUser(id: 1)
         let otherUser = SomeUser(id: 2)
         let post = Post(id: 1, userId: user.id)
@@ -37,7 +38,7 @@ final class PermissionsTests: XCTestCase {
     
     func testAuthorize() throws {
         let container = try self.container()
-        let permissions = try container.make(PermissionManager.self)
+        let permissions = try container.make(Permissions.self)
         let request = Request(using: container)
         
         let user = SomeUser(id: 1)
@@ -79,7 +80,12 @@ final class PermissionsTests: XCTestCase {
     
     private func container() throws -> Container {
         var services = Services.default()
-        services.register(PermissionManager())
+        services.register(
+            PermissionManager(
+                repository: PermissionRepository()
+            ),
+            as: Permissions.self
+        )
         try services.register(AuthenticationProvider())
         let worker = EmbeddedEventLoop()
         

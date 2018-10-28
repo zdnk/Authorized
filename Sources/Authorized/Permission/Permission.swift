@@ -1,11 +1,13 @@
 import Foundation
 
-struct Permission {
+public struct Permission {
     
-    let action: String
-    let isInstance: Bool
-    let isDeny: Bool
-    var resolver: PermissionResolving
+//    public let authorizable: String
+//    public let resource: String
+    public let action: String
+    public let isInstance: Bool
+    public let isDeny: Bool
+    internal var resolver: PermissionResolving
     
     init(action: String, instance: Bool, deny: Bool, resolver: PermissionResolving) {
         self.action = action
@@ -15,6 +17,9 @@ struct Permission {
     }
     
     func resolve<R, A>(_: R.Type, resource: R?, user: A) -> Bool where R: Protected, A: Authorizable {
+//        precondition(R.resourceIdentifier == self.resource)
+//        precondition(A.authorizableIdentifier == self.authorizable)
+        
         return resolver.resolve(R.self, resource: resource, user: user)
     }
     

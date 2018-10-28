@@ -2,9 +2,11 @@ import Foundation
 
 open class PermissionManager: Permissions {
 
-    internal var userResources: [String: UserResources] = [:]
+    internal var repository: PermissionRepository
     
-    public required init() {}
+    public required init(repository: PermissionRepository) {
+        self.repository = repository
+    }
     
     open func allowed<R, A>(_ resource: R, _ action: R.Action, as user: A) -> Bool where R: Protected, A: Authorizable {
         let permissions = self.permissions(
