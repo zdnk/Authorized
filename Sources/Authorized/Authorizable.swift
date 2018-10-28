@@ -13,7 +13,7 @@ extension Authorizable {
     }
     
     func can<R>(_: R.Type, _ action: R.Action, on container: Container) throws -> Bool where R: Protected {
-        let permissions = try container.make(Permissions.self)
+        let permissions = try container.make(PermissionManager.self)
         return permissions.allowed(R.self, action, as: self)
     }
     
@@ -24,7 +24,7 @@ extension Authorizable {
     }
     
     func can<R>(_ resource: R, _ action: R.Action, on container: Container) throws -> Bool where R: Protected {
-        let permissions = try container.make(Permissions.self)
+        let permissions = try container.make(PermissionManager.self)
         return permissions.allowed(resource, action, as: self)
     }
     

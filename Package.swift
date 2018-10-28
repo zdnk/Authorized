@@ -3,11 +3,11 @@
 import PackageDescription
 
 let package = Package(
-    name: "Authorization",
+    name: "Authorized",
     products: [
         .library(
-            name: "Authorization",
-            targets: ["Authorization"]),
+            name: "Authorized",
+            targets: ["Authorized"]),
     ],
     dependencies: [
         .package(url: "https://github.com/vapor/vapor.git", from: "3.0.0"),
@@ -15,15 +15,15 @@ let package = Package(
     ],
     targets: [
         .target(
-            name: "Authorization",
+            name: "Authorized",
             dependencies: [
                 "Vapor",
                 "Authentication",
         ]),
         .testTarget(
-            name: "AuthorizationTests",
+            name: "AuthorizedTests",
             dependencies: [
-                "Authorization",
+                "Authorized",
                 "Vapor",
                 "Authentication",
             ]),

@@ -11,7 +11,7 @@ struct Resource {
     
     func permissions(for request: PermissionRequest) -> [Permission] {
         return storage.filter {
-            if request.instance == false && $0.isInstance == true {
+            if request.isInstance == false && $0.isInstance == true {
                 return false
             }
             

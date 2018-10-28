@@ -2,7 +2,7 @@ import Foundation
 import XCTest
 import Vapor
 import Authentication
-@testable import Authorization
+@testable import Authorized
 
 final class PermissionsTests: XCTestCase {
     
@@ -12,7 +12,7 @@ final class PermissionsTests: XCTestCase {
     ]
     
     func testAllowed() {
-        let permissions = Permissions()
+        let permissions = PermissionManager()
         let user = SomeUser(id: 1)
         let otherUser = SomeUser(id: 2)
         let post = Post(id: 1, userId: user.id)
@@ -37,7 +37,7 @@ final class PermissionsTests: XCTestCase {
     
     func testAuthorize() throws {
         let container = try self.container()
-        let permissions = try container.make(Permissions.self)
+        let permissions = try container.make(PermissionManager.self)
         let request = Request(using: container)
         
         let user = SomeUser(id: 1)
@@ -79,7 +79,7 @@ final class PermissionsTests: XCTestCase {
     
     private func container() throws -> Container {
         var services = Services.default()
-        services.register(Permissions())
+        services.register(PermissionManager())
         try services.register(AuthenticationProvider())
         let worker = EmbeddedEventLoop()
         

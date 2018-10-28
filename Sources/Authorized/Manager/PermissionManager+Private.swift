@@ -1,6 +1,6 @@
 import Foundation
 
-extension Permissions {
+extension PermissionManager {
     
     internal func resolve<R, A>(_ permissions: [Permission], _: R.Type, resource: R?, user: A) -> Bool where R: Protected, A: Authorizable {
         var result = false
@@ -38,10 +38,10 @@ extension Permissions {
         }
         
         let request = PermissionRequest(
-            authorizableIdentifier: A.authorizableIdentifier,
-            resourceIdentifier: resource,
-            actionIdentifier: action,
-            instance: instance
+            authorizable: A.authorizableIdentifier,
+            resource: resource,
+            action: action,
+            isInstance: instance
         )
         
         return resources.permissions(for: request)
@@ -59,7 +59,7 @@ extension Permissions {
         
         let permission = Permission(
             action: request.actionIdentifier,
-            instance: request.instance,
+            instance: request.isInstance,
             deny: deny,
             resolver: resolver
         )
