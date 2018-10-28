@@ -42,19 +42,3 @@ public struct PermissionRepository {
     }
     
 }
-
-extension PermissionRequest {
-    
-    fileprivate var identifier: String {
-        return [
-            self.authorizable,
-            self.resource,
-            self.action
-        ].joined(separator: ".")
-    }
-    
-    fileprivate var instanceIdentifier: String {
-        return "#\(identifier)"
-    }
-    
-}

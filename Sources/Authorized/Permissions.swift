@@ -1,6 +1,6 @@
 import Foundation
 
-public typealias Permissions = PermissionGranting & PermissionDenying & PermissionVerifying
+public typealias Permissions = PermissionVerifying
 
 public protocol PermissionGranting {
     

@@ -1,6 +1,6 @@
 import Foundation
 
-extension PermissionManager {
+extension PermissionManager: PermissionGranting {
     
     open func allow(with request: PermissionRequest, resolver: PermissionResolving) {
         createPermission(
