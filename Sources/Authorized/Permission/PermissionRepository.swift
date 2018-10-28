@@ -4,7 +4,7 @@ public struct PermissionRepository {
     
     public typealias Collection = [String: Permission]
     
-    internal var allows = Collection()
+    internal var grants = Collection()
     internal var denies = Collection()
     
     public init() {}
@@ -24,7 +24,7 @@ public struct PermissionRepository {
         if isDeny {
             denies[id] = permission
         } else {
-            allows[id] = permission
+            grants[id] = permission
         }
     }
     
@@ -34,11 +34,11 @@ public struct PermissionRepository {
         if request.isInstance {
             
             addIfExists(request.instanceIdentifier, in: denies, to: &result)
-            addIfExists(request.instanceIdentifier, in: allows, to: &result)
+            addIfExists(request.instanceIdentifier, in: grants, to: &result)
         }
         
         addIfExists(request.identifier, in: denies, to: &result)
-        addIfExists(request.identifier, in: allows, to: &result)
+        addIfExists(request.identifier, in: grants, to: &result)
         
         return result
     }
