@@ -14,7 +14,7 @@ public struct PermissionRequest {
         self.isInstance = isInstance
     }
     
-    public init<R, A>(authorizable: A.Type, resource: R.Type, action: R.Action, isInstance: Bool) where R: Protected, A: Authorizable {
+    public init<R, A>(authorizable: A.Type, resource: R.Type, action: R.Action, isInstance: Bool) where R: Resource, A: Authorizable {
         self.authorizableIdentifier = A.authorizableIdentifier
         self.resourceIdentifier = R.resourceIdentifier
         self.actionIdentifier = action.actionIdentifier

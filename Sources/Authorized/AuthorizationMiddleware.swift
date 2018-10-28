@@ -1,7 +1,7 @@
 import Vapor
 import Authentication
 
-public struct AuthorizationMiddleware<A: Authorizable & Authenticatable, R: Protected>: Middleware {
+public struct AuthorizationMiddleware<A: Authorizable & Authenticatable, R: Resource>: Middleware {
     
     public let action: R.Action
     

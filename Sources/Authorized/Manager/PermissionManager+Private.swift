@@ -2,7 +2,7 @@ import Foundation
 
 extension PermissionManager {
     
-    internal func resolve<R, A>(_ permissions: [Permission], _: R.Type, resource: R?, user: A) -> Bool where R: Protected, A: Authorizable {
+    internal func resolve<R, A>(_ permissions: [Permission], _: R.Type, resource: R?, user: A) -> Bool where R: Resource, A: Authorizable {
         var result = false
         
         for permission in permissions {

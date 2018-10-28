@@ -1,12 +1,12 @@
 import Foundation
 
-public protocol ProtectedAction {
+public protocol ResourceAction {
     
     var actionIdentifier: String { get }
     
 }
 
-extension ProtectedAction where Self: RawRepresentable, Self.RawValue == String {
+extension ResourceAction where Self: RawRepresentable, Self.RawValue == String {
     
     public var actionIdentifier: String {
         return rawValue

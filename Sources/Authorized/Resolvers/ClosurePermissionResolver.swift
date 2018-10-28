@@ -1,6 +1,6 @@
 import Foundation
 
-public struct ClosurePermissionResolver<P: Protected, A: Authorizable>: PermissionResolving {
+public struct ClosurePermissionResolver<P: Resource, A: Authorizable>: PermissionResolving {
     
     let closure: (P, A) -> Bool
     
@@ -8,7 +8,7 @@ public struct ClosurePermissionResolver<P: Protected, A: Authorizable>: Permissi
         self.closure = closure
     }
     
-    public func resolve<R, U>(_: R.Type, resource: R?, user: U) -> Bool where R: Protected, U: Authorizable {
+    public func resolve<R, U>(_: R.Type, resource: R?, user: U) -> Bool where R: Resource, U: Authorizable {
         guard let resource = resource as? P else {
             return false
         }

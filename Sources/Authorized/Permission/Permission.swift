@@ -16,7 +16,7 @@ public struct Permission {
         self.resolver = resolver
     }
     
-    func resolve<R, A>(_: R.Type, resource: R?, user: A) -> Bool where R: Protected, A: Authorizable {
+    func resolve<R, A>(_: R.Type, resource: R?, user: A) -> Bool where R: Resource, A: Authorizable {
 //        precondition(R.resourceIdentifier == self.resource)
 //        precondition(A.authorizableIdentifier == self.authorizable)
         

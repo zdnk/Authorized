@@ -105,9 +105,9 @@ fileprivate struct SomeUser: Authorizable, Authenticatable {
     
 }
 
-fileprivate struct Post: Protected {
+fileprivate struct Post: Resource {
     
-    enum Action: String, ProtectedAction {
+    enum Action: String, ResourceAction {
         case create
         case modify
     }

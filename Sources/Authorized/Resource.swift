@@ -1,14 +1,14 @@
 import Foundation
 
-public protocol Protected {
+public protocol Resource {
     
-    associatedtype Action: ProtectedAction
+    associatedtype Action: ResourceAction
     
     static var resourceIdentifier: String { get }
     
 }
 
-extension Protected {
+extension Resource {
     
     public static var resourceIdentifier: String {
         return String(describing: Self.self)

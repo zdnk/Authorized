@@ -8,7 +8,7 @@ open class PermissionManager: Permissions {
         self.repository = repository
     }
     
-    open func allowed<R, A>(_ resource: R, _ action: R.Action, as user: A) -> Bool where R: Protected, A: Authorizable {
+    open func allowed<R, A>(_ resource: R, _ action: R.Action, as user: A) -> Bool where R: Resource, A: Authorizable {
         let permissions = self.permissions(
             action: action.actionIdentifier,
             resource: R.resourceIdentifier,
@@ -24,7 +24,7 @@ open class PermissionManager: Permissions {
         )
     }
     
-    open func allowed<R, A>(_ resource: R.Type, _ action: R.Action, as user: A) -> Bool where R: Protected, A: Authorizable {
+    open func allowed<R, A>(_ resource: R.Type, _ action: R.Action, as user: A) -> Bool where R: Resource, A: Authorizable {
         let permissions = self.permissions(
             action: action.actionIdentifier,
             resource: R.resourceIdentifier,
