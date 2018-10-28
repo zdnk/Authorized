@@ -1,7 +1,7 @@
 import Foundation
 
-protocol PermissionResolving {
+public protocol PermissionResolving {
     
-    func resolve(resource: Any, user: Any) -> Bool
+    func resolve<R, U>(_: R.Type, resource: R?, user: U) -> Bool where R: Protected, U: Authorizable
     
 }

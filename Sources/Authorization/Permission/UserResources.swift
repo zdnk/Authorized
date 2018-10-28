@@ -9,12 +9,12 @@ struct UserResources {
         self.identifier = id
     }
     
-    func permission(action: String, resource: String, instance: Bool) -> Action? {
+    func permissions(action: String, resource: String, instance: Bool) -> [Permission] {
         guard let resource = resources[resource] else {
-            return nil
+            return []
         }
         
-        return resource.action(for: action, instance: instance)
+        return resource.permissions(for: action, instance: instance)
     }
     
 }

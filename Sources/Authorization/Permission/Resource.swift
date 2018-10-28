@@ -3,15 +3,35 @@ import Foundation
 struct Resource {
     
     let identifier: String
-    var actions: Set<Action> = Set()
+    private var storage: [Permission] = []
     
     init(_ id: String) {
         self.identifier = id
     }
     
-    func action(for action: String, instance: Bool) -> Action? {
-        return actions.first {
-            return $0.identifier == action && $0.isInstance == instance
+    func permissions(for action: String, instance: Bool) -> [Permission] {
+        return storage.filter {
+            if instance == false && $0.isInstance == true {
+                return false
+            }
+            
+            return $0.action == action
+        }
+    }
+    
+    mutating func addOrReplace(with permission: Permission) {
+        let index = storage.firstIndex {
+            return (
+                $0.action == permission.action
+                && $0.isInstance == permission.isInstance
+                && $0.isDeny == permission.isDeny
+            )
+        }
+        
+        if let index = index {
+            storage[index] = permission
+        } else {
+            storage.append(permission)
         }
     }
     

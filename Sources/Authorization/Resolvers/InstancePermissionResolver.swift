@@ -8,7 +8,7 @@ struct InstancePermissionResolver<P: Protected, A: Authorizable>: PermissionReso
         self.closure = closure
     }
     
-    func resolve(resource: Any, user: Any) -> Bool {
+    func resolve<R, U>(_: R.Type, resource: R?, user: U) -> Bool where R: Protected, U: Authorizable {
         guard let resource = resource as? P else {
             return false
         }

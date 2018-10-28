@@ -2,31 +2,49 @@ import Foundation
 
 extension Permissions {
     
+    internal func resolve<R, A>(_ permissions: [Permission], _: R.Type, resource: R?, user: A) -> Bool where R: Protected, A: Authorizable {
+        var result = false
+        
+        for permission in permissions {
+            let current = permission.resolve(
+                R.self,
+                resource: resource,
+                user: user
+            )
+            
+            guard current else {
+                continue
+            }
+            
+            if !permission.isDeny {
+                result = true
+                continue
+            } else {
+                result = false
+                break
+            }
+        }
+        
+        return result
+    }
+    
     internal func resources<T: Authorizable>(for user: T) -> UserResources? {
         return userResources[T.authorizableIdentifier]
     }
     
-    internal func resolver<A: Authorizable>(action: String, resource: String, user: A, instance: Bool) -> PermissionResolving? {
+    internal func permissions<A: Authorizable>(action: String, resource: String, user: A, instance: Bool) -> [Permission] {
         guard let resources = self.resources(for: user) else {
-            return nil
+            return []
         }
         
-        if instance, let permission = resources.permission(
+        return resources.permissions(
             action: action,
             resource: resource,
-            instance: true
-        ) {
-            return permission.resolver
-        }
-        
-        return resources.permission(
-            action: action,
-            resource: resource,
-            instance: false
-        )?.resolver
+            instance: instance
+        )
     }
     
-    internal func createPermission(user: String, resource: String, action: String, instance: Bool, resolver: PermissionResolving) {
+    internal func createPermission(user: String, resource: String, action: String, instance: Bool, deny: Bool, resolver: PermissionResolving) {
         if userResources[user] == nil {
             userResources[user] = UserResources(user)
         }
@@ -35,20 +53,14 @@ extension Permissions {
             userResources[user]?.resources[resource] = Resource(resource)
         }
         
-        if var act = userResources[user]?.resources[resource]?.action(for: action, instance: instance) {
-            userResources[user]?.resources[resource]?.actions.remove(act)
-            act.resolver = resolver
-            userResources[user]?.resources[resource]?.actions.insert(act)
-        } else {
-            let act = Action(
-                action,
-                instance: instance,
-                resolver: resolver
-            )
-            
-            userResources[user]?.resources[resource]?.actions.insert(act)
-        }
+        let permission = Permission(
+            action: action,
+            instance: instance,
+            deny: deny,
+            resolver: resolver
+        )
         
+        userResources[user]?.resources[resource]?.addOrReplace(with: permission)
     }
     
 }
