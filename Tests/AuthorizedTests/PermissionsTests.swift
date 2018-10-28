@@ -13,7 +13,7 @@ final class PermissionsTests: XCTestCase {
     
     func testAllowed() throws {
         let container = try self.container()
-        let permissions = try container.make(Permissions.self)
+        var permissions = try container.make(PermissionManager.self)
         let user = SomeUser(id: 1)
         let otherUser = SomeUser(id: 2)
         let post = Post(id: 1, userId: user.id)
@@ -38,7 +38,7 @@ final class PermissionsTests: XCTestCase {
     
     func testAuthorize() throws {
         let container = try self.container()
-        let permissions = try container.make(Permissions.self)
+        var permissions = try container.make(PermissionManager.self)
         let request = Request(using: container)
         
         let user = SomeUser(id: 1)
