@@ -55,7 +55,7 @@ open class Permissions: Service {
             action: action.actionIdentifier,
             instance: true,
             deny: false,
-            resolver: InstancePermissionResolver(resolve)
+            resolver: ClosurePermissionResolver(resolve)
         )
     }
     
