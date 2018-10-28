@@ -1,7 +1,9 @@
-import Foundation
+import Vapor
 
 public protocol HasRoles {
     
-    func hasRole(_: String) -> Bool
+    associatedtype Role
+    
+    func has(role: Role) -> Bool
     
 }

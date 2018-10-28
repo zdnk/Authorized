@@ -9,13 +9,13 @@ struct Resource {
         self.identifier = id
     }
     
-    func permissions(for action: String, instance: Bool) -> [Permission] {
+    func permissions(for request: PermissionRequest) -> [Permission] {
         return storage.filter {
-            if instance == false && $0.isInstance == true {
+            if request.instance == false && $0.isInstance == true {
                 return false
             }
             
-            return $0.action == action
+            return $0.action == request.actionIdentifier
         }
     }
     

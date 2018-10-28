@@ -38,22 +38,30 @@ open class Permissions: Service {
     }
     
     open func allow<R, A>(_ resource: R.Type, _ action: R.Action, for user: A.Type) where R: Protected, A: Authorizable {
+        let request = PermissionRequest(
+            authorizableIdentifier: A.authorizableIdentifier,
+            resourceIdentifier: R.resourceIdentifier,
+            actionIdentifier: action.actionIdentifier,
+            instance: false
+        )
+        
         createPermission(
-            user: A.authorizableIdentifier,
-            resource: R.resourceIdentifier,
-            action: action.actionIdentifier,
-            instance: false,
+            with: request,
             deny: false,
             resolver: StaticPermissionResolver(value: true)
         )
     }
     
     open func allow<R, A>(_ resource: R.Type, _ action: R.Action, for user: A.Type, _ resolve: @escaping (R, A) -> Bool) where R: Protected, A: Authorizable {
+        let request = PermissionRequest(
+            authorizableIdentifier: A.authorizableIdentifier,
+            resourceIdentifier: R.resourceIdentifier,
+            actionIdentifier: action.actionIdentifier,
+            instance: true
+        )
+        
         createPermission(
-            user: A.authorizableIdentifier,
-            resource: R.resourceIdentifier,
-            action: action.actionIdentifier,
-            instance: true,
+            with: request,
             deny: false,
             resolver: ClosurePermissionResolver(resolve)
         )

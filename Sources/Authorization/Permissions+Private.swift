@@ -37,30 +37,36 @@ extension Permissions {
             return []
         }
         
-        return resources.permissions(
-            action: action,
-            resource: resource,
+        let request = PermissionRequest(
+            authorizableIdentifier: A.authorizableIdentifier,
+            resourceIdentifier: resource,
+            actionIdentifier: action,
             instance: instance
         )
+        
+        return resources.permissions(for: request)
     }
     
-    internal func createPermission(user: String, resource: String, action: String, instance: Bool, deny: Bool, resolver: PermissionResolving) {
-        if userResources[user] == nil {
-            userResources[user] = UserResources(user)
+    internal func createPermission(with request: PermissionRequest, deny: Bool, resolver: PermissionResolving) {
+        if userResources[request.authorizableIdentifier] == nil {
+            userResources[request.authorizableIdentifier] = UserResources(request.authorizableIdentifier)
         }
         
-        if userResources[user]?.resources[resource] == nil {
-            userResources[user]?.resources[resource] = Resource(resource)
+        if userResources[request.authorizableIdentifier]?.resources[request.resourceIdentifier] == nil {
+            userResources[request.authorizableIdentifier]?
+                .resources[request.resourceIdentifier] = Resource(request.resourceIdentifier)
         }
         
         let permission = Permission(
-            action: action,
-            instance: instance,
+            action: request.actionIdentifier,
+            instance: request.instance,
             deny: deny,
             resolver: resolver
         )
         
-        userResources[user]?.resources[resource]?.addOrReplace(with: permission)
+        userResources[request.authorizableIdentifier]?
+            .resources[request.resourceIdentifier]?
+            .addOrReplace(with: permission)
     }
     
 }
