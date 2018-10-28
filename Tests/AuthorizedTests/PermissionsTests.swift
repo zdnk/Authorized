@@ -81,9 +81,7 @@ final class PermissionsTests: XCTestCase {
     private func container() throws -> Container {
         var services = Services.default()
         services.register(
-            PermissionManager(
-                repository: PermissionRepository()
-            ),
+            PermissionManager(),
             as: Permissions.self
         )
         try services.register(AuthenticationProvider())
