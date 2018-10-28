@@ -2,8 +2,10 @@ import Foundation
 
 public struct PermissionRepository {
     
-    internal var allows: [String: Permission] = [:]
-    internal var denies: [String: Permission] = [:]
+    public typealias Collection = [String: Permission]
+    
+    internal var allows = Collection()
+    internal var denies = Collection()
     
     public init() {}
     
