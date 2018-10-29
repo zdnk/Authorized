@@ -39,7 +39,7 @@ extension PermissionManager {
     }
     
     internal func createPermission(with request: PermissionRequest, deny: Bool, resolver: PermissionResolving) {
-        repository.defineOrReplace(with: request, isDeny: deny, resolver: resolver)
+        repository.define(with: request, isDeny: deny, resolver: resolver)
     }
     
 }

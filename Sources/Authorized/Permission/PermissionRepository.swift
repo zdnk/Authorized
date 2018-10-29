@@ -2,14 +2,14 @@ import Foundation
 
 public struct PermissionRepository {
     
-    public typealias Collection = [String: Permission]
+    public typealias Collection = [String: [Permission]]
     
     internal var grants = Collection()
     internal var denies = Collection()
     
     public init() {}
     
-    public mutating func defineOrReplace(with request: PermissionRequest, isDeny: Bool, resolver: PermissionResolving) {
+    public mutating func define(with request: PermissionRequest, isDeny: Bool, resolver: PermissionResolving) {
         let id = request.isInstance ? request.instanceIdentifier : request.identifier
         
         let permission = Permission(
@@ -22,9 +22,16 @@ public struct PermissionRepository {
         )
         
         if isDeny {
-            denies[id] = permission
+            if denies[id] == nil {
+                denies[id] = []
+            }
+            
+            denies[id]?.append(permission)
         } else {
-            grants[id] = permission
+            if grants[id] == nil {
+                grants[id] = []
+            }
+            grants[id]?.append(permission)
         }
     }
     
