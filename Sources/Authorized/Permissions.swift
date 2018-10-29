@@ -5,13 +5,13 @@ public typealias Permissions = PermissionVerifying
 
 public protocol PermissionGranting {
     
-    mutating func allow(with: PermissionRequest, resolver: PermissionResolving)
+    func allow(with: PermissionRequest, resolver: PermissionResolving)
     
 }
 
 public protocol PermissionDenying {
     
-    mutating func deny(with: PermissionRequest, resolver: PermissionResolving)
+    func deny(with: PermissionRequest, resolver: PermissionResolving)
     
 }
 
