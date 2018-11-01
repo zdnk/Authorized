@@ -1,12 +1,5 @@
 import Foundation
 
-public enum PermissionResolution {
-    
-    case allow
-    case deny
-    
-}
-
 public struct Permission {
     
     public let authorizable: String

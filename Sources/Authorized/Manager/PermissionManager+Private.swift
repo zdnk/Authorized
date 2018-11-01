@@ -11,7 +11,7 @@ extension PermissionManager {
                 user: user
             )
             
-            if result == .deny {
+            if result.isDeny {
                 break
             }
         }

@@ -26,7 +26,7 @@ open class PermissionManager: Permissions {
             user: user
         )
         
-        return result == .allow
+        return result.isAllow
     }
     
 }
