@@ -2,13 +2,13 @@ import Foundation
 
 public struct SimplePermissionResolver: PermissionResolving {
     
-    public let value: Bool
+    public let value: PermissionResolution
     
-    public init(value: Bool) {
+    public init(value: PermissionResolution) {
         self.value = value
     }
     
-    public func resolve<R, U>(target: ResourceTarget<R>, user: U) -> Bool where R: Resource, U: Authorizable {
+    public func resolve<R, U>(target: ResourceTarget<R>, user: U) -> PermissionResolution where R: Resource, U: Authorizable {
         return value
     }
     

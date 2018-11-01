@@ -2,13 +2,15 @@ import Foundation
 
 public struct InstanceClosurePermissionResolver<P: Resource, A: Authorizable>: PermissionResolving {
     
-    let closure: (P, A) -> Bool
+    public typealias ResolutionClosure = (P, A) -> PermissionResolution
     
-    public init(_ closure: @escaping (P, A) -> Bool) {
+    let closure: ResolutionClosure
+    
+    public init(_ closure: @escaping ResolutionClosure) {
         self.closure = closure
     }
     
-    public func resolve<R, U>(target: ResourceTarget<R>, user: U) -> Bool where R: Resource, U: Authorizable {
+    public func resolve<R, U>(target: ResourceTarget<R>, user: U) -> PermissionResolution where R: Resource, U: Authorizable {
         guard case ResourceTarget.instance(let resource) = target else {
             preconditionFailure("Resource target is not instance.")
         }

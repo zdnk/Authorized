@@ -2,24 +2,16 @@ import Foundation
 
 extension PermissionManager {
     
-    internal func resolve<R, A>(_ permissions: [Permission], target: ResourceTarget<R>, user: A) -> Bool where R: Resource, A: Authorizable {
-        var result = false
+    internal func resolve<R, A>(_ permissions: [Permission], target: ResourceTarget<R>, user: A) -> PermissionResolution where R: Resource, A: Authorizable {
+        var result = PermissionResolution.deny
         
         for permission in permissions {
-            let current = permission.resolve(
+            result = permission.resolve(
                 target: target,
                 user: user
             )
             
-            guard current else {
-                continue
-            }
-            
-            if !permission.isDeny {
-                result = true
-                continue
-            } else {
-                result = false
+            if result == .deny {
                 break
             }
         }
@@ -38,8 +30,8 @@ extension PermissionManager {
         return repository.permissions(for: request)
     }
     
-    internal func createPermission(with request: PermissionRequest, deny: Bool, resolver: PermissionResolving) {
-        repository.define(with: request, isDeny: deny, resolver: resolver)
+    internal func createPermission(with request: PermissionRequest, resolver: PermissionResolving) {
+        repository.define(with: request, resolver: resolver)
     }
     
 }

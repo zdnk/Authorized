@@ -1,24 +1,29 @@
 import Foundation
 
+public enum PermissionResolution {
+    
+    case allow
+    case deny
+    
+}
+
 public struct Permission {
     
     public let authorizable: String
     public let resource: String
     public let action: String
     public let isInstance: Bool
-    public let isDeny: Bool
     internal var resolver: PermissionResolving
     
-    init(authorizable: String, resource: String, action: String, instance: Bool, deny: Bool, resolver: PermissionResolving) {
+    init(authorizable: String, resource: String, action: String, instance: Bool, resolver: PermissionResolving) {
         self.authorizable = authorizable
         self.resource = resource
         self.action = action
         self.isInstance = instance
-        self.isDeny = deny
         self.resolver = resolver
     }
     
-    func resolve<R, A>(target: ResourceTarget<R>, user: A) -> Bool where R: Resource, A: Authorizable {
+    func resolve<R, A>(target: ResourceTarget<R>, user: A) -> PermissionResolution where R: Resource, A: Authorizable {
         precondition(R.resourceIdentifier == self.resource)
         precondition(A.authorizableIdentifier == self.authorizable)
         

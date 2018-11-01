@@ -12,7 +12,9 @@ extension PermissionGranting {
         
         allow(
             with: request,
-            resolver: InstanceClosurePermissionResolver(resolve)
+            resolver: InstanceClosurePermissionResolver{ resource, user in
+                return resolve(resource, user) ? .allow : .deny
+            }
         )
     }
     

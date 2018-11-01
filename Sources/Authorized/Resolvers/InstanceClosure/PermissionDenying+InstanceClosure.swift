@@ -12,7 +12,9 @@ extension PermissionDenying {
         
         deny(
             with: request,
-            resolver: InstanceClosurePermissionResolver(resolve)
+            resolver: InstanceClosurePermissionResolver { resource, user in
+                return resolve(resource, user) ? .deny : .allow
+            }
         )
     }
     

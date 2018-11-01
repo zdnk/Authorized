@@ -20,11 +20,13 @@ open class PermissionManager: Permissions {
             instance: target.isInstance
         )
         
-        return self.resolve(
+        let result = self.resolve(
             permissions,
             target: target,
             user: user
         )
+        
+        return result == .allow
     }
     
 }

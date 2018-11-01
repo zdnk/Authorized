@@ -12,7 +12,7 @@ extension PermissionGranting {
         
         allow(
             with: request,
-            resolver: SimplePermissionResolver(value: true)
+            resolver: SimplePermissionResolver(value: .allow)
         )
     }
     

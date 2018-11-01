@@ -18,8 +18,8 @@ final class PermissionsTests: XCTestCase {
         let otherUser = SomeUser(id: 2)
         let post = Post(id: 1, userId: user.id)
         
-        permissions.allow(Post.self, .create, for: SomeUser.self)
-        permissions.allow(Post.self, .modify, for: SomeUser.self) { post, user in
+        permissions.allow(Post.self, .create, as: SomeUser.self)
+        permissions.allow(Post.self, .modify, as: SomeUser.self) { post, user in
             return post.userId == user.id
         }
         
@@ -38,15 +38,15 @@ final class PermissionsTests: XCTestCase {
     
     func testAuthorize() throws {
         let container = try self.container()
-        var permissions = try container.make(PermissionManager.self)
+        let permissions = try container.make(PermissionManager.self)
         let request = Request(using: container)
         
         let user = SomeUser(id: 1)
         let otherUser = SomeUser(id: 2)
         let post = Post(id: 1, userId: user.id)
         
-        permissions.allow(Post.self, .create, for: SomeUser.self)
-        permissions.allow(Post.self, .modify, for: SomeUser.self) { post, user in
+        permissions.allow(Post.self, .create, as: SomeUser.self)
+        permissions.allow(Post.self, .modify, as: SomeUser.self) { post, user in
             return post.userId == user.id
         }
         

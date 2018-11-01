@@ -12,7 +12,7 @@ extension PermissionDenying {
         
         deny(
             with: request,
-            resolver: SimplePermissionResolver(value: true)
+            resolver: SimplePermissionResolver(value: .deny)
         )
     }
     
