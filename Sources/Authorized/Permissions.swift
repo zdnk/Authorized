@@ -3,15 +3,9 @@ import Vapor
 
 public typealias Permissions = PermissionVerifying
 
-public protocol PermissionGranting {
+public protocol PermissionDefining {
     
-    func allow(with: PermissionRequest, resolver: PermissionResolving)
-    
-}
-
-public protocol PermissionDenying {
-    
-    func deny(with: PermissionRequest, resolver: PermissionResolving)
+    func define(with: PermissionRequest, resolver: PermissionResolving)
     
 }
 
