@@ -1,6 +1,6 @@
 import Foundation
 
-open class PermissionManager: Permissions {
+open class PermissionManager: PermissionVerifying {
 
     internal var repository: PermissionRepository
     

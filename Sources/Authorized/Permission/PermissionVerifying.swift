@@ -1,14 +1,6 @@
 import Foundation
 import Vapor
 
-public typealias Permissions = PermissionVerifying
-
-public protocol PermissionDefining {
-    
-    func define(with: PermissionRequest, resolver: PermissionResolving)
-    
-}
-
 public protocol PermissionVerifying {
     
     func allowed<R, A>(_: ResourceTarget<R>, _: R.Action, as: A) -> Bool where R: Resource, A: Authorizable

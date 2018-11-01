@@ -82,7 +82,7 @@ final class PermissionsTests: XCTestCase {
         var services = Services.default()
         services.register(
             PermissionManager(),
-            as: Permissions.self
+            as: PermissionVerifying.self
         )
         try services.register(AuthenticationProvider())
         let worker = EmbeddedEventLoop()
