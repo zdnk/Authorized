@@ -4,14 +4,14 @@ public protocol ResourcePolicy: Policy where Model: Resource, Model.Action: Hash
     
     associatedtype Model
     
-    func mapping() throws -> ResourcePolicyMapping<Model>
+    func rules() -> ResourceRules<Model>
     
 }
 
 extension ResourcePolicy {
     
     public func configure(in config: PermissionDefining) throws {
-        let definition = try self.mapping()
+        let definition = self.rules()
         definition.add(to: config)
     }
     
