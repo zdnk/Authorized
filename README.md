@@ -18,6 +18,10 @@ and in Terminal run `swift package resolve`.
 
 If you are using Xcode for development: `swift package generate-xcodeproj`.
 
+## Example
+
+Check example application in `Example/` of this repository, or see Usage section below.
+
 ## Usage
 
 Everything begins with:
