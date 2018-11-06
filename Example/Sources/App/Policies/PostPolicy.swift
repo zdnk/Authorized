@@ -25,11 +25,21 @@ struct PostPolicy: ResourcePolicy {
         return container.future(.allow)
     }
     
-    func create(as user: User, on container: Container) -> Future<PermissionResolution> {
+    func create(post: Post, as user: User, on container: Container) -> Future<PermissionResolution> {
+        // Deny regular users to create posts in "top" category
+        if user.role == .regular && post.category.lowercased() == "top" {
+            return container.future(.deny)
+        }
+        
         return container.future(.allow)
     }
     
     func delete(post: Post, as user: User, on container: Container) throws -> Future<PermissionResolution> {
+        // Allow moderators to delete any post
+        if user.role == .moderator {
+            return container.future(.allow)
+        }
+        
         let allowed = try post.authorId == user.requireID()
         return container.future(allowed ? .allow : .deny)
     }

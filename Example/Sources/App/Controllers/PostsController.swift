@@ -12,14 +12,11 @@ final class PostsController {
     func create(_ req: Request) throws -> Future<Post> {
         let user = try req.requireAuthenticated(User.self)
         
-        return try req.authorize(user, Post.self, .create)
-            .flatMap { _ in
-                return try req.content.decode(Post.Input.self)
-            }
+        return try req.content.decode(Post.Input.self)
             .map { input in
                 return try Post.from(input: input, author: user)
             }
-            // Authorize can be called even here as in `delete` example below
+            .authorize(.create, as: user, on: req)
             .flatMap { post in
                 return post.save(on: req)
             }

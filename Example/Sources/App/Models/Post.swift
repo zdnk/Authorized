@@ -5,6 +5,7 @@ struct Post: SQLiteModel {
     var id: Int?
     var title: String
     var content: String
+    var category: String
     let authorId: User.ID
 }
 
@@ -20,6 +21,7 @@ extension Post {
         
         let title: String
         let content: String
+        let category: String
         
     }
     
@@ -28,6 +30,7 @@ extension Post {
             id: nil,
             title: input.title,
             content: input.content,
+            category: input.category,
             authorId: try author.requireID()
         )
     }
