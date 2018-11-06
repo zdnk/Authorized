@@ -13,12 +13,12 @@ extension Post: Resource {
 
 struct PostPolicy: ResourcePolicy {
     
-    func mapping() throws -> ResourcePolicyMapping<Post> {
-        var map = ResourcePolicyMapping<Post>()
-        try map.action(.list, to: self.list)
-        try map.action(.create, to: self.create)
-        try map.action(.delete, to: self.delete)
-        return map
+    func rules() -> ResourceRules<Post> {
+        var rules = ResourceRules<Post>()
+        rules.add(self.list, for: .list)
+        rules.add(self.create, for: .create)
+        rules.add(self.delete, for: .delete)
+        return rules
     }
     
     func list(as user: User, on container: Container) -> Future<PermissionResolution> {
