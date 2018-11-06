@@ -5,7 +5,7 @@ import Authentication
 
 struct User: SQLiteModel {
     
-    enum Role: String, SQLiteEnumType {
+    enum Role: String, SQLiteEnumType, Equatable {
         
         static func reflectDecoded() throws -> (User.Role, User.Role) {
             return (.regular, .moderator)
@@ -13,6 +13,7 @@ struct User: SQLiteModel {
         
         case regular
         case moderator
+        case admin
     }
     
     var id: Int?

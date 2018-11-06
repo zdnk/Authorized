@@ -16,6 +16,7 @@ public func configure(_ config: inout Config, _ env: inout Environment, _ servic
     /// Authorization
     var auth = AuthorizationConfig()
     auth.add(policy: PostPolicy())
+    auth.add(policy: AdminRolePolicy())
     services.register(auth)
     
     /// Register middleware
