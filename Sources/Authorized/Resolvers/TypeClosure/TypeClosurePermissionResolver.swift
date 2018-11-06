@@ -3,7 +3,7 @@ import Vapor
 
 public struct TypeClosurePermissionResolver<P: Resource, A: Authorizable>: PermissionResolving {
     
-    public typealias ResolutionClosure = (P.Type, A, Container) -> Future<PermissionResolution>
+    public typealias ResolutionClosure = (P.Type, A, Container) throws -> Future<PermissionResolution>
     
     let closure: ResolutionClosure
     
@@ -11,7 +11,7 @@ public struct TypeClosurePermissionResolver<P: Resource, A: Authorizable>: Permi
         self.closure = closure
     }
     
-    public func resolve<R, U>(target: ResourceTarget<R>, user: U, on container: Container) -> Future<PermissionResolution> where R: Resource, U: Authorizable {
+    public func resolve<R, U>(target: ResourceTarget<R>, user: U, on container: Container) throws -> Future<PermissionResolution> where R: Resource, U: Authorizable {
         guard case ResourceTarget.type = target else {
             preconditionFailure("Resource target is not type.")
         }
@@ -20,7 +20,7 @@ public struct TypeClosurePermissionResolver<P: Resource, A: Authorizable>: Permi
             preconditionFailure("Authorizable cannot be casted to \(A.self)")
         }
         
-        return closure(P.self, user, container)
+        return try closure(P.self, user, container)
     }
     
 }

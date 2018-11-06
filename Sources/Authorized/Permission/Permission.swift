@@ -21,7 +21,13 @@ public struct Permission {
         precondition(R.resourceIdentifier == self.resource)
         precondition(A.authorizableIdentifier == self.authorizable)
         
-        return resolver.resolve(target: target, user: user, on: container)
+        do {
+            return try resolver.resolve(target: target, user: user, on: container)
+        } catch {
+            #warning("TODO: logging?")
+            print(error)
+            return container.future(.deny)
+        }
     }
     
 }

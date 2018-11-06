@@ -11,15 +11,15 @@ public struct ResourcePolicyMapping<R: Resource> {
     
     public init() {}
     
-    public mutating func action<A>(_ action: R.Action, to: @escaping (R, A, Container) -> Future<PermissionResolution>) throws where A: Authorizable {
+    public mutating func action<A>(_ action: R.Action, to: @escaping (R, A, Container) throws -> Future<PermissionResolution>) throws where A: Authorizable {
         let resolver = InstanceClosurePermissionResolver(to)
         
         try add(action: action, as: A.self, instance: true, resolver: resolver)
     }
     
-    public mutating func action<A>(_ action: R.Action, to: @escaping (A, Container) -> Future<PermissionResolution>) throws where A: Authorizable {
+    public mutating func action<A>(_ action: R.Action, to: @escaping (A, Container) throws -> Future<PermissionResolution>) throws where A: Authorizable {
         let resolver = TypeClosurePermissionResolver<R, A>() { _, user, container in
-            return to(user, container)
+            return try to(user, container)
         }
 
         try add(action: action, as: A.self, instance: true, resolver: resolver)
