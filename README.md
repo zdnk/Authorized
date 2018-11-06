@@ -16,6 +16,22 @@ Add the package to your dependencies in `Package.swift`.
 
 ### Define resources and actions
 
+```swift
+import Authorized
+
+struct Post: Resource { // Probably also conforms to Fluent.Model
+
+    enum Action: ResourceAction {
+        case create
+        case modify
+    }
+
+    var id: Int?
+    let authorId: User.ID
+
+}
+```
+
 ### Write your policy definitions
 
 ### Register the policies
@@ -23,6 +39,8 @@ Add the package to your dependencies in `Package.swift`.
 You need to register the service in your `configure.swift`.
 
 ```swift
+import Authorized
+
 // Initialize configuration - needs to be mutable (var)
 var permissionConfig = PermissionsConfig()
 
