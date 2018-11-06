@@ -4,7 +4,7 @@ import Vapor
 import Authentication
 @testable import Authorized
 
-final class PermissionsTests: XCTestCase {
+final class PermissionManagerTests: XCTestCase {
     
     static var allTests = [
         ("testAllowed", testAllowed),
