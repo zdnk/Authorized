@@ -7,13 +7,13 @@ public struct ResourceRules<R: Resource> {
     
     public init() {}
     
-    public mutating func add<A>(_ to: @escaping (R, A, Container) -> Future<PermissionResolution>, for action: R.Action) throws where A: Authorizable {
+    public mutating func add<A>(_ to: @escaping (R, A, Container) throws -> Future<PermissionResolution>, for action: R.Action) where A: Authorizable {
         let resolver = InstanceClosurePermissionResolver(to)
         
         add(action: action, as: A.self, instance: true, resolver: resolver)
     }
     
-    public mutating func add<A>(_ to: @escaping (A, Container) throws -> Future<PermissionResolution>, for action: R.Action) throws where A: Authorizable {
+    public mutating func add<A>(_ to: @escaping (A, Container) throws -> Future<PermissionResolution>, for action: R.Action) where A: Authorizable {
         let resolver = TypeClosurePermissionResolver<R, A>() { _, user, container in
             return try to(user, container)
         }
