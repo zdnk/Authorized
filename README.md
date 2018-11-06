@@ -12,7 +12,8 @@ Add the package to your dependencies in `Package.swift`
 .package(url: "https://github.com/zdnk/Authorized.git", .branch("master"))
 ```
 
-and in Terminal run `swift package resolve`, if you are using Xcode for development: `swift package generate-xcodeproj`.
+and in Terminal run `swift package resolve`.
+If you are using Xcode for development: `swift package generate-xcodeproj`.
 
 ## Usage
 
