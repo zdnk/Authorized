@@ -4,6 +4,10 @@ import Vapor
 extension PermissionManager {
     
     internal func resolve<R, A>(_ permissions: [Permission], target: ResourceTarget<R>, user: A, on container: Container) -> Future<PermissionResolution> where R: Resource, A: Authorizable {
+        if permissions.count == 0 {
+            return container.future(.deny)
+        }
+        
         var futures = [Future<PermissionResolution>]()
         for permission in permissions {
             let future = permission.resolve(

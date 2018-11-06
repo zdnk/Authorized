@@ -21,7 +21,7 @@ open class PermissionManager: PermissionVerifying {
             instance: target.isInstance
         )
         
-        if permissions.count == 0 {
+        if permissions.count == 0 && target.isInstance {
             let error = NoPermissionsDefinedError(
                 resource: R.self,
                 action: action,
