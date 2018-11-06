@@ -4,6 +4,8 @@ Vapor 3 package to define permissions and authorize authenticated users to do ac
 
 ## Usage
 
+### Define resources and actions
+
 ### Write your policy definitions
 
 ### Register the policies
