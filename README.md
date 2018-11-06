@@ -13,6 +13,7 @@ Add the package to your dependencies in `Package.swift`
 ```
 
 and in Terminal run `swift package resolve`.
+
 If you are using Xcode for development: `swift package generate-xcodeproj`.
 
 ## Usage
