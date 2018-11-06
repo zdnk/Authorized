@@ -182,3 +182,7 @@ extension Authorizable {
 
 }
 ```
+
+## Bug? Feature request?
+
+Did you find a bug or would like to see new feature implemented? Great! Please open new issues or create pull request :)
