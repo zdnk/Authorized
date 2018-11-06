@@ -7,7 +7,7 @@ public struct AuthorizationProvider: Provider {
     public func register(_ services: inout Services) throws {
         services.register(PermissionVerifying.self, factory: { container -> PermissionManager in
             let config = try container.make(AuthorizationConfig.self)
-            return try config.makePermissions()
+            return try config.makeManager()
         })
     }
     

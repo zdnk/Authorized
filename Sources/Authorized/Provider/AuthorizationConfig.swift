@@ -10,7 +10,7 @@ public struct AuthorizationConfig: Service {
         policies.append(policy)
     }
     
-    internal func makePermissions() throws -> PermissionManager {
+    internal func makeManager() throws -> PermissionManager {
         let repository = PermissionRepository()
         let manager = PermissionManager(repository: repository)
         
