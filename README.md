@@ -14,7 +14,7 @@ Add the package to your dependencies in `Package.swift`.
 
 ## Usage
 
-### Define resources and actions
+### Define resources and actions (or extend models)
 
 ```swift
 import Authorized
@@ -28,6 +28,19 @@ struct Post: Resource { // Probably also conforms to Fluent.Model
 
     var id: Int?
     let authorId: User.ID
+
+}
+```
+
+### Define user (or extend existing)
+
+```swift
+import Authorized
+
+struct User: Authorizable { // Probably also conforms to Fluent.Model and Authenticatable
+
+    var id: Int?
+    let username: String
 
 }
 ```
