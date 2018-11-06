@@ -24,9 +24,9 @@ Check example application in `Example/` of this repository, or see Usage section
 
 ## Mechanics
 
-`.deny` takes precedence before `.allow`. If any rule returns `.deny`, the authorization fails even if every other rule returns `.allow`.
+`.deny` takes precedence before `.allow`. If any rule results in `.deny`, the authorization fails even if all other rules respond with `.allow`.
 
-If you are requesting authorization for instance of a resource, there needs to be at least one permission defined that takes the instance of that resource for that user.
+If you are requesting authorization for instance of a resource, there needs to be at least one permission/rule defined that takes the instance of that resource and instance of that user as parameters owtherwise the `Future` will fail with `NoInstancePermissionsDefinedError`.
 
 ## Usage
 
