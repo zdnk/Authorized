@@ -23,7 +23,7 @@ struct Post: Resource { // Probably also conforms to Fluent.Model
 
     enum Action: ResourceAction {
         case create
-        case modify
+        case delete
     }
 
     var id: Int?
@@ -47,6 +47,10 @@ struct User: Authorizable { // Probably also conforms to Fluent.Model and Authen
 
 ### Write your policy definitions
 
+```swift
+// todo
+```
+
 ### Register the policies
 
 You need to register the service in your `configure.swift`.
@@ -65,6 +69,23 @@ try services.register(permissionConfig)
 ```
 
 ### Authorize actions in your controllers 
+
+One possible way can be like the example below, for more options, please check the API section.
+
+```swift
+/// DELETE /posts/{id}
+func delete(_ req: Request) -> Future<HTTPStatus> {
+    return req.parameters.next(Post.self)
+        // Check if there is someone authenticated of type User,
+        // and verify if this specific User has permission
+        // to remove this specific Post
+        .authorize(.delete, as: User.self, on: req) // returns Future<Post>
+        .flatMap { post in
+            return post.delete(on: req)
+        }
+        .transform(to: HTTPStatus.noContent)
+}
+```
 
 ## API
 
