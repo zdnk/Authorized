@@ -1,9 +1,11 @@
-import Foundation
 import Vapor
 
 open class PermissionManager: PermissionVerifying {
 
+    internal typealias BeforeClosure = (Any, Any, Any, Container) throws -> Future<PermissionResolution?>
+    
     internal var repository: PermissionRepository
+    internal var beforeClosures: [BeforeClosure] = []
     
     public required init(repository: PermissionRepository) {
         self.repository = repository

@@ -3,7 +3,7 @@ import Vapor
 
 public struct ResourceRules<R: Resource> {
     
-    var rules: [(PermissionRequest, PermissionResolving)] = []
+    private var rules: [(PermissionRequest, PermissionResolving)] = []
     
     public init() {}
     
