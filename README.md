@@ -1,4 +1,4 @@
-# Authorized
+# 🔐 Authorized
 
 Vapor 3 package to define permissions and authorize authenticated users to do actions on resources.
 
