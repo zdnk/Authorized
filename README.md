@@ -98,7 +98,7 @@ You need to register the service in your `configure.swift`.
 
 ```swift
 // Register provider
-try servicer.register(AuthorizationProvider())
+try services.register(AuthorizationProvider())
 
 // Initialize configuration - needs to be mutable (var)
 var auth = AuthorizationConfig()
