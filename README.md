@@ -69,11 +69,11 @@ struct PostPolicy: ResourcePolicy {
 
     // This function is required to return the policy configuration.
     // Think of it as a mapping of actions to functions
-    func mapping() throws -> ResourcePolicyMapping<Post> {
-        var map = ResourcePolicyMapping<Post>()
-        try map.action(.create, to: self.create)
-        try map.action(.delete, to: self.delete)
-        return map
+    func rules() -> ResourceRules<Post> {
+        var rules = ResourceRules<Post>()
+        rules.add(self.create, for: .create)
+        rules.add(self.delete, for: .delete)
+        return rules
     }
 
     // Define functions that will resolve the permission
