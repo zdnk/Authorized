@@ -197,6 +197,42 @@ extension Authorizable {
 }
 ```
 
+### Overriding
+
+If you need to allow everything for some specific user, deny everything or any other global behavior, you can define it like this:
+
+```swift
+struct AdminRolePolicy: Policy {
+    
+    func configure(in config: PermissionDefining) throws {
+
+        config.before { (context) -> EventLoopFuture<PermissionResolution?> in
+            guard let user = context.user as? User else {
+                // passing `nil` means continue executing with default behavior
+                return context.container.future(nil)
+            }
+            
+            if user.role == .admin {
+                // Admins can do anything!
+                // passing `.allow` or `.deny` will cause the authorization to fail early
+                // and skips executing the regular rules
+                return context.container.future(.allow)
+            }
+            
+            // passing `nil` means continue executing with default behavior
+            return context.container.future(nil)
+        }
+        
+    }
+    
+}
+```
+
+In `configure.swift`:
+```swift
+auth.add(policy: AdminRolePolicy())
+```
+
 ## Bug? Feature request?
 
 Did you find a bug or would like to see new feature implemented? Great! Please open new issues or create pull request :)
