@@ -93,7 +93,7 @@ func delete(_ req: Request) -> Future<HTTPStatus> {
 
 There are several extensions available on Vapors and Swift NIOs types to help you easily authorize users and actions on resources.
 
-#### `Request`
+#### `Request` from Vapor
 
 ```swift
 extension Request {
@@ -109,7 +109,7 @@ extension Request {
 }
 ```
 
-#### `Future<T: Resource>`
+#### `Future<T: Resource>` from Swift NIO
 
 ```swift
 extension EventLoopFuture where T : Resource {
@@ -120,7 +120,7 @@ extension EventLoopFuture where T : Resource {
 
 }
 ```
-#### `Authorizable`
+#### `Authorizable` from Authorized
 
 ```swift
 extension Authorizable {
