@@ -6,16 +6,17 @@ import Authorized
 public func configure(_ config: inout Config, _ env: inout Environment, _ services: inout Services) throws {
     /// Register providers first
     try services.register(FluentSQLiteProvider())
+    try services.register(AuthorizationProvider())
 
     /// Register routes to the router
     let router = EngineRouter.default()
     try routes(router)
     services.register(router, as: Router.self)
 
-    /// Permissions
-    var permissions = PermissionsConfig()
-    permissions.add(policy: PostPolicy())
-    services.register(permissions)
+    /// Authorization
+    var auth = AuthorizationConfig()
+    auth.add(policy: PostPolicy())
+    services.register(auth)
     
     /// Register middleware
     var middlewares = MiddlewareConfig() // Create _empty_ middleware config
