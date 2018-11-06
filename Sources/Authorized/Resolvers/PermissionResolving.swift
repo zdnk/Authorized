@@ -1,7 +1,8 @@
 import Foundation
+import Vapor
 
 public protocol PermissionResolving {
     
-    func resolve<R, U>(target: ResourceTarget<R>, user: U) -> PermissionResolution where R: Resource, U: Authorizable
+    func resolve<R, U>(target: ResourceTarget<R>, user: U, on: Container) -> Future<PermissionResolution> where R: Resource, U: Authorizable
     
 }

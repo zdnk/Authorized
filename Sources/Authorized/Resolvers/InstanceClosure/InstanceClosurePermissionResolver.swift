@@ -1,8 +1,9 @@
 import Foundation
+import Vapor
 
 public struct InstanceClosurePermissionResolver<P: Resource, A: Authorizable>: PermissionResolving {
     
-    public typealias ResolutionClosure = (P, A) -> PermissionResolution
+    public typealias ResolutionClosure = (P, A, Container) -> Future<PermissionResolution>
     
     let closure: ResolutionClosure
     
@@ -10,7 +11,7 @@ public struct InstanceClosurePermissionResolver<P: Resource, A: Authorizable>: P
         self.closure = closure
     }
     
-    public func resolve<R, U>(target: ResourceTarget<R>, user: U) -> PermissionResolution where R: Resource, U: Authorizable {
+    public func resolve<R, U>(target: ResourceTarget<R>, user: U, on container: Container) -> Future<PermissionResolution> where R: Resource, U: Authorizable {
         guard case ResourceTarget.instance(let resource) = target else {
             preconditionFailure("Resource target is not instance.")
         }
@@ -23,7 +24,7 @@ public struct InstanceClosurePermissionResolver<P: Resource, A: Authorizable>: P
             preconditionFailure("Authorizable cannot be casted to \(A.self)")
         }
         
-        return closure(typeResource, user)
+        return closure(typeResource, user, container)
     }
     
 }

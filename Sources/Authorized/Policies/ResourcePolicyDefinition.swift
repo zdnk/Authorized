@@ -1,4 +1,5 @@
 import Foundation
+import Vapor
 
 public struct ResourcePolicyDefinition<R: Resource> {
     
@@ -10,15 +11,15 @@ public struct ResourcePolicyDefinition<R: Resource> {
     
     public init() {}
     
-    public mutating func action<A>(_ action: R.Action, to: @escaping (R, A) -> PermissionResolution) throws where A: Authorizable {
+    public mutating func action<A>(_ action: R.Action, to: @escaping (R, A, Container) -> Future<PermissionResolution>) throws where A: Authorizable {
         let resolver = InstanceClosurePermissionResolver(to)
         
         try add(action: action, as: A.self, instance: true, resolver: resolver)
     }
     
-    public mutating func action<A>(_ action: R.Action, to: @escaping (A) -> PermissionResolution) throws where A: Authorizable {
-        let resolver = TypeClosurePermissionResolver<R, A>() { _, user in
-            return to(user)
+    public mutating func action<A>(_ action: R.Action, to: @escaping (A, Container) -> Future<PermissionResolution>) throws where A: Authorizable {
+        let resolver = TypeClosurePermissionResolver<R, A>() { _, user, container in
+            return to(user, container)
         }
 
         try add(action: action, as: A.self, instance: true, resolver: resolver)

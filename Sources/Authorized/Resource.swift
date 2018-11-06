@@ -20,10 +20,9 @@ extension Resource {
 extension Future where T: Resource {
     
     public func authorize<A: Authorizable>(_ action: T.Action, as user: A, on container: Container) -> Future<T> {
-        return map { resource -> T in
+        return flatMap { resource in
             let permissions = try container.make(PermissionVerifying.self)
-            try permissions.authorize(resource, action, as: user)
-            return resource
+            return permissions.authorize(resource, action, as: user, on: container)
         }
     }
     
