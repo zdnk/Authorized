@@ -20,7 +20,7 @@ If you are using Xcode for development: `swift package generate-xcodeproj`.
 
 ## Example
 
-Check example application in `Example/` of this repository, or see Usage section below.
+Check example application in [`Example/`](https://github.com/zdnk/Authorized/tree/master/Example) of this repository, or see Usage section below.
 
 ## Mechanics
 
