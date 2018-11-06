@@ -1,5 +1,7 @@
 import FluentSQLite
 import Vapor
+import Authorized
+import Authentication
 
 struct User: SQLiteModel {
     
@@ -7,5 +9,7 @@ struct User: SQLiteModel {
     let username: String
     
 }
+
+extension User: Authorizable, Authenticatable {}
 
 extension User: Migration { }

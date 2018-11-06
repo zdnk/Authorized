@@ -1,5 +1,6 @@
 import FluentSQLite
 import Vapor
+import Authorized
 
 /// Called before your application initializes.
 public func configure(_ config: inout Config, _ env: inout Environment, _ services: inout Services) throws {
@@ -11,6 +12,11 @@ public func configure(_ config: inout Config, _ env: inout Environment, _ servic
     try routes(router)
     services.register(router, as: Router.self)
 
+    /// Permissions
+    var permissions = PermissionsConfig()
+    permissions.add(policy: PostPolicy())
+    services.register(permissions)
+    
     /// Register middleware
     var middlewares = MiddlewareConfig() // Create _empty_ middleware config
     /// middlewares.use(FileMiddleware.self) // Serves files from `Public/` directory
