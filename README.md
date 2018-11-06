@@ -6,14 +6,17 @@ Vapor 3 package to define permissions and authorize authenticated users to do ac
 
 ### Swift Package Manager
 
-Add the package to your dependencies in `Package.swift`.
+Add the package to your dependencies in `Package.swift`
 
 ```swift
 .package(url: "https://github.com/zdnk/Authorized.git", .branch("master"))
 ```
 
+and in Terminal run `swift package resolve`, if you are using Xcode for development: `swift package generate-xcodeproj`.
+
 ## Usage
 
+Everything begins with:
 ```swift
 import Authorized
 ```
@@ -110,6 +113,24 @@ func delete(_ req: Request) -> Future<HTTPStatus> {
         .transform(to: HTTPStatus.noContent)
 }
 ```
+
+or
+
+```swift
+/// DELETE /posts/{id}
+func delete(_ req: Request) -> Future<HTTPStatus> {
+    let user = try self.requireAuthenticated(User.self)
+    
+    return req.parameters.next(Post.self)
+        .authorize(.delete, as: user, on: req) // returns Future<Post>
+        .flatMap { post in
+            return post.delete(on: req)
+        }
+        .transform(to: HTTPStatus.noContent)
+}
+```
+
+In both examples we are using Vapors `Authentication` library so the `User` needs to conform to `Authenticatable`.
 
 ## API
 
