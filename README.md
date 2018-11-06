@@ -75,9 +75,9 @@ struct PostPolicy: ResourcePolicy {
         return container.future(.allow)
     }
 
-    func delete(post: Post, as user: User, on container: Container) -> Future<PermissionResolution> {
+    func delete(post: Post, as user: User, on container: Container) throws -> Future<PermissionResolution> {
         // Allow only authors of the post to delete them
-        let result = post.authorId == user.id
+        let result = try post.authorId == user.requireID()
         return container.future(result ? .allow : .deny)
     }
 
@@ -96,7 +96,7 @@ var permissionConfig = PermissionsConfig()
 permissionConfig.add(policy: PostPolicy())
 
 // Now register the configuration to the services
-try services.register(permissionConfig)
+services.register(permissionConfig)
 ```
 
 ### Authorize actions in your controllers 
