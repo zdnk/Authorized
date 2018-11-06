@@ -134,7 +134,8 @@ func delete(_ req: Request) -> Future<HTTPStatus> {
 }
 ```
 
-In both examples we are using Vapors `Authentication` library so the `User` needs to conform to `Authenticatable`.
+Both examples are using Vapors `Authentication` library so the `User` needs to conform to `Authenticatable`.
+Also it relies on `Post` being a `Model`.
 
 ## API
 
