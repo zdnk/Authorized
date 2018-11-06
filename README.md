@@ -235,4 +235,4 @@ auth.add(policy: AdminRolePolicy())
 
 ## Bug? Feature request?
 
-Did you find a bug or would like to see new feature implemented? Great! Please open new issues or create pull request :)
+Did you find a bug or would like to see new feature implemented? Great! Please [open new issue](https://github.com/zdnk/Authorized/issues/new) or [create pull request](https://github.com/zdnk/Authorized/compare) :)
