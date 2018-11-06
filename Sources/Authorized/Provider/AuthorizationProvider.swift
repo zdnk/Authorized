@@ -1,6 +1,6 @@
 import Vapor
 
-public struct PermissionsProvider: Provider {
+public struct AuthorizationProvider: Provider {
     
     public init() {}
     

@@ -97,6 +97,9 @@ struct PostPolicy: ResourcePolicy {
 You need to register the service in your `configure.swift`.
 
 ```swift
+// Register provider
+servicer.register(AuthorizationProvider())
+
 // Initialize configuration - needs to be mutable (var)
 var auth = AuthorizationConfig()
 
