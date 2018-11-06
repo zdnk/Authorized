@@ -30,7 +30,7 @@ import Authorized
 ```swift
 struct Post: Resource { // Probably also conforms to Fluent.Model
 
-    enum Action: ResourceAction {
+    enum Action: String, ResourceAction {
         case create
         case delete
     }
