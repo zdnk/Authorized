@@ -2,6 +2,16 @@
 
 Vapor 3 package to define permissions and authorize authenticated users to do actions on resources.
 
+## Installation
+
+### Swift Package Manager
+
+Add the package to your dependencies in `Package.swift`.
+
+```swift
+.package(url: "https://github.com/zdnk/Authorized.git", .branch("master"))
+```
+
 ## Usage
 
 ### Define resources and actions
