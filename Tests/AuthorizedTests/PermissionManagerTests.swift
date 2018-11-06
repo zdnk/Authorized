@@ -24,10 +24,10 @@ final class PermissionManagerTests: XCTestCase {
         }
         
         XCTAssertTrue(try permissions.allowed(Post.self, .create, as: user, on: container).wait())
-        XCTAssertTrue(try permissions.allowed(post, .create, as: user, on: container).wait())
+        XCTAssertThrowsError(try permissions.allowed(post, .create, as: user, on: container).wait())
 
         XCTAssertTrue(try permissions.allowed(Post.self, .create, as: otherUser, on: container).wait())
-        XCTAssertTrue(try permissions.allowed(post, .create, as: otherUser, on: container).wait())
+        XCTAssertThrowsError(try permissions.allowed(post, .create, as: otherUser, on: container).wait())
         
         XCTAssertFalse(try permissions.allowed(Post.self, .modify, as: user, on: container).wait())
         XCTAssertTrue(try permissions.allowed(post, .modify, as: user, on: container).wait())
@@ -56,7 +56,7 @@ final class PermissionManagerTests: XCTestCase {
             try request.authorize(SomeUser.self, Post.self, .create).wait()
         )
 
-        XCTAssertNoThrow(
+        XCTAssertThrowsError(
             try request.authorize(SomeUser.self, post, .create).wait()
         )
 

@@ -26,6 +26,8 @@ Check example application in `Example/` of this repository, or see Usage section
 
 `.deny` takes precedence before `.allow`. Meaning, if single rules returns `.deny`, the authorization fails even if every other rule returns `.allow`.
 
+If you are requesting authorization for instance of a resource, there needs to be at least one permission defined that takes the instance of that resource for that user.
+
 ## Usage
 
 Everything begins with:

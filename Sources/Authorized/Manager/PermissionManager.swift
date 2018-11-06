@@ -21,15 +21,17 @@ open class PermissionManager: PermissionVerifying {
             instance: target.isInstance
         )
         
-        if permissions.count == 0 && target.isInstance {
-            let error = NoPermissionsDefinedError(
-                resource: R.self,
-                action: action,
-                authorizable: A.self,
-                instance: target.isInstance
-            )
-            
-            return container.future(error: error)
+        if target.isInstance {
+            let hasInstance = permissions.contains { $0.isInstance }
+            if !hasInstance {
+                let error = NoInstancePermissionsDefinedError(
+                    resource: R.self,
+                    action: action,
+                    authorizable: A.self
+                )
+                
+                return container.future(error: error)
+            }
         }
         
         return self.resolve(

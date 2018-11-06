@@ -19,7 +19,6 @@ final class FutureTests: XCTestCase {
         let otherUser = SomeUser(id: 2)
         let post = Post(id: 1, userId: user.id)
         
-        permissions.allow(Post.self, .create, as: SomeUser.self)
         permissions.allow(Post.self, .modify, as: SomeUser.self) { post, user, container in
             return container.future(post.userId == user.id)
         }
@@ -29,7 +28,7 @@ final class FutureTests: XCTestCase {
         let postFuture = container.future(post)
         
         XCTAssertNoThrow(
-            try postFuture.authorize(.create, as: user, on: container).wait()
+            try postFuture.authorize(.modify, as: user, on: container).wait()
         )
         
         XCTAssertThrowsError(
