@@ -2,7 +2,7 @@ import Vapor
 
 open class PermissionManager: PermissionVerifying {
 
-    public typealias BeforeClosure = (Any, Any, Authorizable, Container) throws -> Future<PermissionResolution?>
+    public typealias BeforeClosure = (BeforeContext) throws -> Future<PermissionResolution?>
     
     internal var repository: PermissionRepository
     internal var beforeClosures: [BeforeClosure] = []

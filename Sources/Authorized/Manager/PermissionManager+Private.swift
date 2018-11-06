@@ -8,8 +8,15 @@ extension PermissionManager {
         var beforeFutures: [Future<PermissionResolution?>] = []
         
         do {
+            let context = BeforeContext(
+                target: target,
+                action: action,
+                user: user,
+                container: container
+            )
+            
             try beforeClosures.forEach { closure in
-                let future = try closure(target, action, user, container)
+                let future = try closure(context)
                 beforeFutures.append(future)
             }
         } catch {

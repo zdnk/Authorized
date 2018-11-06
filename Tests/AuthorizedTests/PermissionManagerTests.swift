@@ -87,17 +87,17 @@ final class PermissionManagerTests: XCTestCase {
         let hacker = SomeUser(id: 3)
         let post = Post(id: 1, userId: author.id)
         
-        permissions.before { (_, _, anyUser, container) -> EventLoopFuture<PermissionResolution?> in
-            guard let user = anyUser as? SomeUser else {
-                return container.future(nil)
+        permissions.before { (context) -> EventLoopFuture<PermissionResolution?> in
+            guard let user = context.user as? SomeUser else {
+                return context.container.future(nil)
             }
             
             if user.isAdmin {
                 // Admins can do anything!
-                return container.future(.allow)
+                return context.container.future(.allow)
             }
             
-            return container.future(nil)
+            return context.container.future(nil)
         }
         
         permissions.allow(Post.self, .modify, as: SomeUser.self) { post, user, container in
