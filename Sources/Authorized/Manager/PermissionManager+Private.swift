@@ -1,22 +1,33 @@
 import Foundation
+import Vapor
 
 extension PermissionManager {
     
-    internal func resolve<R, A>(_ permissions: [Permission], target: ResourceTarget<R>, user: A) -> PermissionResolution where R: Resource, A: Authorizable {
-        var result = PermissionResolution.deny
-        
-        for permission in permissions {
-            result = permission.resolve(
-                target: target,
-                user: user
-            )
-            
-            if result.isDeny {
-                break
-            }
+    internal func resolve<R, A>(_ permissions: [Permission], target: ResourceTarget<R>, user: A, on container: Container) -> Future<PermissionResolution> where R: Resource, A: Authorizable {
+        if permissions.count == 0 {
+            return container.future(.deny)
         }
         
-        return result
+        var futures = [Future<PermissionResolution>]()
+        for permission in permissions {
+            let future = permission.resolve(
+                target: target,
+                user: user,
+                on: container
+            )
+            
+            futures.append(future)
+        }
+        
+        return futures
+            .flatten(on: container)
+            .map { resoltions -> PermissionResolution in
+                if resoltions.contains(.deny) {
+                    return .deny
+                }
+                
+                return .allow
+            }
     }
     
     internal func permissions<A: Authorizable>(action: String, resource: String, user: A, instance: Bool) -> [Permission] {

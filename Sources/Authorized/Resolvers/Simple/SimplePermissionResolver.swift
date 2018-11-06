@@ -1,4 +1,5 @@
 import Foundation
+import Vapor
 
 public struct SimplePermissionResolver: PermissionResolving {
     
@@ -8,8 +9,8 @@ public struct SimplePermissionResolver: PermissionResolving {
         self.value = value
     }
     
-    public func resolve<R, U>(target: ResourceTarget<R>, user: U) -> PermissionResolution where R: Resource, U: Authorizable {
-        return value
+    public func resolve<R, U>(target: ResourceTarget<R>, user: U, on container: Container) -> Future<PermissionResolution> where R: Resource, U: Authorizable {
+        return container.future(value)
     }
     
 }

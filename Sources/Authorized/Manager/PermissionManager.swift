@@ -1,4 +1,5 @@
 import Foundation
+import Vapor
 
 open class PermissionManager: PermissionVerifying {
 
@@ -12,7 +13,7 @@ open class PermissionManager: PermissionVerifying {
         self.init(repository: PermissionRepository())
     }
     
-    open func allowed<R, A>(_ target: ResourceTarget<R>, _ action: R.Action, as user: A) -> Bool where R : Resource, A : Authorizable {
+    open func allowed<R, A>(_ target: ResourceTarget<R>, _ action: R.Action, as user: A, on container: Container) -> Future<Bool> where R : Resource, A : Authorizable {
         let permissions = self.permissions(
             action: action.actionIdentifier,
             resource: R.resourceIdentifier,
@@ -20,13 +21,14 @@ open class PermissionManager: PermissionVerifying {
             instance: target.isInstance
         )
         
-        let result = self.resolve(
+        return self.resolve(
             permissions,
             target: target,
-            user: user
-        )
-        
-        return result.isAllow
+            user: user,
+            on: container
+        ).map { resolution -> Bool in
+            return resolution.isAllow
+        }
     }
     
 }

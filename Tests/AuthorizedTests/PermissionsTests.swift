@@ -13,69 +13,68 @@ final class PermissionsTests: XCTestCase {
     
     func testAllowed() throws {
         let container = try self.container()
-        var permissions = try container.make(PermissionManager.self)
+        let permissions = try container.make(PermissionManager.self)
         let user = SomeUser(id: 1)
         let otherUser = SomeUser(id: 2)
         let post = Post(id: 1, userId: user.id)
         
         permissions.allow(Post.self, .create, as: SomeUser.self)
-        permissions.allow(Post.self, .modify, as: SomeUser.self) { post, user in
-            return post.userId == user.id
+        permissions.allow(Post.self, .modify, as: SomeUser.self) { post, user, container in
+            return container.future(post.userId == user.id)
         }
         
-        XCTAssertTrue(permissions.allowed(Post.self, .create, as: user))
-        XCTAssertTrue(permissions.allowed(post, .create, as: user))
+        XCTAssertTrue(try permissions.allowed(Post.self, .create, as: user, on: container).wait())
+        XCTAssertTrue(try permissions.allowed(post, .create, as: user, on: container).wait())
+
+        XCTAssertTrue(try permissions.allowed(Post.self, .create, as: otherUser, on: container).wait())
+        XCTAssertTrue(try permissions.allowed(post, .create, as: otherUser, on: container).wait())
         
-        XCTAssertTrue(permissions.allowed(Post.self, .create, as: otherUser))
-        XCTAssertTrue(permissions.allowed(post, .create, as: otherUser))
+        XCTAssertFalse(try permissions.allowed(Post.self, .modify, as: user, on: container).wait())
+        XCTAssertTrue(try permissions.allowed(post, .modify, as: user, on: container).wait())
         
-        XCTAssertFalse(permissions.allowed(Post.self, .modify, as: user))
-        XCTAssertTrue(permissions.allowed(post, .modify, as: user))
-        
-        XCTAssertFalse(permissions.allowed(Post.self, .modify, as: otherUser))
-        XCTAssertFalse(permissions.allowed(post, .modify, as: otherUser))
+        XCTAssertFalse(try permissions.allowed(Post.self, .modify, as: otherUser, on: container).wait())
+        XCTAssertFalse(try permissions.allowed(post, .modify, as: otherUser, on: container).wait())
     }
     
     func testAuthorize() throws {
         let container = try self.container()
         let permissions = try container.make(PermissionManager.self)
         let request = Request(using: container)
-        
+
         let user = SomeUser(id: 1)
         let otherUser = SomeUser(id: 2)
         let post = Post(id: 1, userId: user.id)
-        
+
         permissions.allow(Post.self, .create, as: SomeUser.self)
-        permissions.allow(Post.self, .modify, as: SomeUser.self) { post, user in
-            return post.userId == user.id
+        permissions.allow(Post.self, .modify, as: SomeUser.self) { post, user, container in
+            return container.future(post.userId == user.id)
         }
-        
+
         try request.authenticate(user)
-        
+
         XCTAssertNoThrow(
-            try request.authorize(SomeUser.self, Post.self, .create)
+            try request.authorize(SomeUser.self, Post.self, .create).wait()
         )
-        
+
         XCTAssertNoThrow(
-            try request.authorize(SomeUser.self, post, .create)
+            try request.authorize(SomeUser.self, post, .create).wait()
         )
-        
+
         XCTAssertThrowsError(
-            try request.authorize(SomeUser.self, Post.self, .modify)
+            try request.authorize(SomeUser.self, Post.self, .modify).wait()
         )
-        
+
         XCTAssertThrowsError(
-            try request.authorize(otherUser, Post.self, .modify)
+            try request.authorize(otherUser, Post.self, .modify).wait()
         )
-        
+
         XCTAssertThrowsError(
-            try request.authorize(otherUser, post, .modify)
+            try request.authorize(otherUser, post, .modify).wait()
         )
-        
+
         XCTAssertNoThrow(
-            try request.authorize(SomeUser.self, post, .modify)
+            try request.authorize(SomeUser.self, post, .modify).wait()
         )
-        
     }
     
     private func container() throws -> Container {
