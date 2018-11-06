@@ -17,9 +17,11 @@ public struct ResourcePolicyDefinition<R: Resource> {
     }
     
     public mutating func action<A>(_ action: R.Action, to: @escaping (A) -> PermissionResolution) throws where A: Authorizable {
-//        let resolver = InstanceClosurePermissionResolver(to)
-//
-//        try add(action: action, as: A.self, instance: true, resolver: resolver)
+        let resolver = TypeClosurePermissionResolver<R, A>() { _, user in
+            return to(user)
+        }
+
+        try add(action: action, as: A.self, instance: true, resolver: resolver)
     }
     
     private mutating func add<A>(action: R.Action, as user: A.Type, instance: Bool, resolver: PermissionResolving) throws where A: Authorizable {

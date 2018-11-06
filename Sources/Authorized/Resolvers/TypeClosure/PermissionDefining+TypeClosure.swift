@@ -12,7 +12,7 @@ extension PermissionDefining {
         
         define(
             with: request,
-            resolver: TypeClosurePermissionResolver<R, A>{ resource, user in
+            resolver: TypeClosurePermissionResolver<R, A>{ _, user in
                 return resolve(user) ? .allow : .deny
             }
         )
@@ -28,7 +28,7 @@ extension PermissionDefining {
         
         define(
             with: request,
-            resolver: TypeClosurePermissionResolver<R, A> { resource, user in
+            resolver: TypeClosurePermissionResolver<R, A> { _, user in
                 return resolve(user) ? .deny : .allow
             }
         )
