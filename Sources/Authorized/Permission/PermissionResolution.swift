@@ -1,6 +1,6 @@
 import Foundation
 
-public enum PermissionResolution {
+public enum PermissionResolution: Hashable {
     
     case allow
     case deny
