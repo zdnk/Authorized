@@ -77,23 +77,6 @@ final class PermissionManagerTests: XCTestCase {
         )
     }
     
-    private func container() throws -> Container {
-        var services = Services.default()
-        services.register(
-            PermissionManager(),
-            as: PermissionVerifying.self
-        )
-        try services.register(AuthenticationProvider())
-        let worker = EmbeddedEventLoop()
-        
-        return BasicContainer(
-            config: Config.default(),
-            environment: .testing,
-            services: services,
-            on: worker
-        )
-    }
-    
 }
 
 fileprivate struct SomeUser: Authorizable, Authenticatable {
