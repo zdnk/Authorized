@@ -22,6 +22,10 @@ If you are using Xcode for development: `swift package generate-xcodeproj`.
 
 Check example application in `Example/` of this repository, or see Usage section below.
 
+## Mechanics
+
+`.deny` takes precedence before `.allow`. Meaning, if single rules returns `.deny`, the authorization fails even if every other rule returns `.allow`.
+
 ## Usage
 
 Everything begins with:
