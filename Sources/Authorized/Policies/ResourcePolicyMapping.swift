@@ -1,7 +1,7 @@
 import Foundation
 import Vapor
 
-public struct ResourcePolicyDefinition<R: Resource> {
+public struct ResourcePolicyMapping<R: Resource> {
     
     public enum Error: Swift.Error {
         case alreadyExists(action: R.Action, authorizable: Authorizable.Type)
