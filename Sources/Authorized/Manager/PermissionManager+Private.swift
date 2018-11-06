@@ -3,6 +3,34 @@ import Vapor
 
 extension PermissionManager {
     
+    internal func before<R, A>(_ target: ResourceTarget<R>, _ action: R.Action, as user: A, on container: Container) -> Future<PermissionResolution?> where R: Resource, A: Authorizable {
+        
+        var beforeFutures: [Future<PermissionResolution?>] = []
+        
+        do {
+            try beforeClosures.forEach { closure in
+                let future = try closure(target, action, user, container)
+                beforeFutures.append(future)
+            }
+        } catch {
+            return container.future(.deny)
+        }
+        
+        return beforeFutures
+            .flatten(on: container)
+            .map { results -> PermissionResolution? in
+                if results.contains(.deny) {
+                    return .deny
+                }
+                
+                if results.contains(.allow) {
+                    return .allow
+                }
+                
+                return nil
+        }
+    }
+    
     internal func resolve<R, A>(_ permissions: [Permission], target: ResourceTarget<R>, user: A, on container: Container) -> Future<PermissionResolution> where R: Resource, A: Authorizable {
         if permissions.count == 0 {
             return container.future(.deny)
