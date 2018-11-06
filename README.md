@@ -1,3 +1,5 @@
+# WIP: This package is not production ready and is in active development, breaking changes may occur in any commit.
+
 # 🔐 Authorized
 
 Vapor 3 package to define permissions and authorize authenticated users to do actions on resources.
