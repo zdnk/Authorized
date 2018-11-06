@@ -15,7 +15,7 @@ public struct PermissionsConfig: Service {
         let manager = PermissionManager(repository: repository)
         
         for policy in policies {
-            policy.configure(in: manager)
+            try policy.configure(in: manager)
         }
         
         return manager
