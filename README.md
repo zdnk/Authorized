@@ -10,6 +10,19 @@ Vapor 3 package to define permissions and authorize authenticated users to do ac
 
 ### Register the policies
 
+You need to register the service in your `configure.swift`.
+
+```swift
+// Initialize configuration - needs to be mutable (var)
+var permissionConfig = PermissionsConfig()
+
+// Add policies to the configuration
+permissionConfig.add(policy: PostPolicy())
+
+// Now register the configuration to the services
+try services.register(permissionConfig)
+```
+
 ### Authorize actions in your controllers 
 
 ## API
