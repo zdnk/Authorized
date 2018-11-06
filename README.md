@@ -14,11 +14,13 @@ Add the package to your dependencies in `Package.swift`.
 
 ## Usage
 
+```swift
+import Authorized
+```
+
 ### Define resources and actions (or extend models)
 
 ```swift
-import Authorized
-
 struct Post: Resource { // Probably also conforms to Fluent.Model
 
     enum Action: ResourceAction {
@@ -35,8 +37,6 @@ struct Post: Resource { // Probably also conforms to Fluent.Model
 ### Define user (or extend existing)
 
 ```swift
-import Authorized
-
 struct User: Authorizable { // Probably also conforms to Fluent.Model and Authenticatable
 
     var id: Int?
@@ -45,10 +45,36 @@ struct User: Authorizable { // Probably also conforms to Fluent.Model and Authen
 }
 ```
 
-### Write your policy definitions
+### Write policies
 
 ```swift
-// todo
+struct PostPolicy: ResourcePolicy {
+
+    typealias Model = Post
+
+    // This function is required to return the policy configuration.
+    // Think of it as a mapping of actions to functions
+    func definition() -> ResourcePolicyDefinition<Post> {
+        var config = ResourcePolicyDefinition<Post>()
+        config.action(.create, to: self.create)
+        config.action(.delete, to: self.delete)
+        return config
+    }
+
+    // Define functions that will resolve the permission
+
+    func create(as user: User, on container: Container) -> Future<PermissionResolution> {
+        // Allow everyone to create Posts
+        return container.future(.allow)
+    }
+
+    func delete(post: Post, as user: User, on container: Container) -> Future<PermissionResolution> {
+        // Allow only authors of the post to delete them
+        let result = post.authorId == user.id
+        return container.future(result ? .allow : .deny)
+    }
+
+}
 ```
 
 ### Register the policies
@@ -56,8 +82,6 @@ struct User: Authorizable { // Probably also conforms to Fluent.Model and Authen
 You need to register the service in your `configure.swift`.
 
 ```swift
-import Authorized
-
 // Initialize configuration - needs to be mutable (var)
 var permissionConfig = PermissionsConfig()
 
