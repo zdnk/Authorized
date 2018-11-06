@@ -1,7 +1,7 @@
 import Foundation
 import Vapor
 
-public protocol PermissionVerifying {
+public protocol PermissionVerifying: Service {
     
     func allowed<R, A>(_: ResourceTarget<R>, _: R.Action, as: A, on: Container) -> Future<Bool> where R: Resource, A: Authorizable
     
