@@ -1,6 +1,6 @@
 import Vapor
 
-public struct PermissionsConfig: Service {
+public struct AuthorizationConfig: Service {
     
     public private(set) var policies: [Policy] = []
     

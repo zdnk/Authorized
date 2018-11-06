@@ -98,13 +98,13 @@ You need to register the service in your `configure.swift`.
 
 ```swift
 // Initialize configuration - needs to be mutable (var)
-var permissions = PermissionsConfig()
+var auth = AuthorizationConfig()
 
 // Add policies to the configuration
-permissions.add(policy: PostPolicy())
+auth.add(policy: PostPolicy())
 
 // Now register the configuration to the services
-services.register(permissions)
+services.register(auth)
 ```
 
 ### Authorize actions in your controllers 
