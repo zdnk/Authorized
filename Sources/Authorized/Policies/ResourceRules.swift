@@ -18,7 +18,7 @@ public struct ResourceRules<R: Resource> {
             return try to(user, container)
         }
 
-        add(action: action, as: A.self, instance: true, resolver: resolver)
+        add(action: action, as: A.self, instance: false, resolver: resolver)
     }
     
     private mutating func add<A>(action: R.Action, as user: A.Type, instance: Bool, resolver: PermissionResolving) where A: Authorizable {
