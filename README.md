@@ -11,7 +11,7 @@ Vapor 3 package to define permissions and authorize authenticated users to do ac
 Add the package to your dependencies in `Package.swift`
 
 ```swift
-.package(url: "https://github.com/zdnk/Authorized.git", .branch("master"))
+.package(url: "https://github.com/zdnk/Authorized.git", from: "1.0.0-alpha.1")
 ```
 
 and in Terminal run `swift package resolve`.
