@@ -1,4 +1,4 @@
-# WIP: This package is not production ready and is in active development, breaking changes may occur in any commit. If you would like to help with development, please contact me via Twitter @zdnkt
+# WIP
 
 # 🔐 Authorized
 
